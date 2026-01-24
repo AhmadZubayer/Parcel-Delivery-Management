@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap');
+@import "tailwindcss";
+@plugin "daisyui";
+
+@theme {
+  --color-scheme: light;
+}
+
+* {
+  font-family: "Urbanist", sans-serif;
+  font-optical-sizing: auto;
+}
+
+body {
+  background-color: #EAECED;
+}
+
+.btn{
+  padding: 12px 32px;
+  border-radius: 12px;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin: 10px;
+
+  &:hover {
+    background-color: #b5cc50;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(196, 219, 95, 0.3);
+  }
+
+  &:active {
+    transform: translateY(0);
+  }
+}
+
+.btn-1  {
+  background-color: #c4db5f;
+  color: #000000;
+}
+
+.btn-2 {
+  background-color: transparent;
+  color: #000000;
+  border: 2px solid #000000;
+}
+
