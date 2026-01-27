@@ -7,6 +7,7 @@ import Brands from '../components/home-components/Brands';
 import Features from '../components/home-components/Features';
 import Satisfaction from '../components/home-components/Satisfaction';
 import CustomerReview from '../components/home-components/CustomerReview';
+import Faq from '../components/home-components/Faq';
 
 const Home = () => {
     return (
@@ -18,6 +19,7 @@ const Home = () => {
                 <Features></Features>
                 <Satisfaction></Satisfaction>
                 <CustomerReview></CustomerReview>
+                <Faq></Faq>
         </div>
     );
 };
