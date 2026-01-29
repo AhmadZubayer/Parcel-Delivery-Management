@@ -8,14 +8,14 @@ const NavBar = () => {
     const links = <>
     <li><NavLink>Services</NavLink></li>
     <li><NavLink>Send a Parcel </NavLink></li>
-    <li><NavLink>Coverage </NavLink></li>
+    <li><NavLink to='/coverage'>Coverage </NavLink></li>
     <li><NavLink>About Us</NavLink></li>
     <li><NavLink>Pricing </NavLink></li>
     <li><NavLink>Become a Rider</NavLink></li>
     </>;
 
     return (
-        <div>
+        <div className='mb-5'>
             <div className="navbar bg-base-100 shadow-sm">
                 <div className="navbar-start">
                     <div className="dropdown">
