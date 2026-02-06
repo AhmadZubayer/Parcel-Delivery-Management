@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router';
+import React, { useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import useAuth from '../../hooks/useAuth';
 import { FcGoogle } from 'react-icons/fc';
@@ -7,57 +7,46 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import './Auth.css';
 
 const SignIn = () => {
-  // ✅ REACT HOOK FORM: useForm hook initialization
-  const { register, handleSubmit, formState: { errors }, reset } = useForm();
-  const { signInUser, signInGoogle, user } = useAuth();
-  const navigate = useNavigate();
+  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { signInUser, signInWithGoogle, loading } = useAuth();
   const location = useLocation();
-  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
-  useEffect(() => {
-    if (user) {
-      navigate('/');
-    }
-  }, [user, navigate]);
 
-  // ✅ REACT HOOK FORM: handleSubmit wraps this function
   const handleSignIn = (data) => {
-    setLoading(true);
-    
+    console.log('form data', data);
     signInUser(data.email, data.password)
-      .then(() => {
-        alert('Sign in successful!');
-        reset();
-        navigate(location?.state || '/');
+      .then(result => {
+        console.log(result.user)
+        console.log(location.state);
+        navigate(location?.state ? location.state : '/');
       })
-      .catch((error) => {
-        console.error('Sign in error:', error);
-        alert('Sign in failed. Please check your credentials.');
+      .catch(error => {
+        console.log(error)
       })
-      .finally(() => setLoading(false));
-  };
+  }
+
 
   const handleGoogleLogin = () => {
-    setLoading(true);
-    signInGoogle()
-      .then(() => {
-        alert('Sign in successful!');
-        navigate(location?.state || '/');
+    signInWithGoogle()
+      .then(result => {
+        console.log(result.user)
+        console.log(location.state);
+        navigate(location?.state ? location.state : '/');
       })
-      .catch((error) => {
-        console.error('Google sign in error:', error);
-        alert('Google sign in failed');
+      .catch(error => {
+        console.log(error)
       })
-      .finally(() => setLoading(false));
-  };
+  }
+
 
   return (
     <div className="auth-container">
       <div className="auth-card">
         <h1 className="auth-title">Sign In</h1>
         <p className="auth-subtitle">Welcome back! Please login to your account</p>
-        
+
         {/* ✅ REACT HOOK FORM: handleSubmit wraps the handleSignIn function */}
         <form onSubmit={handleSubmit(handleSignIn)} className="auth-form">
           <div className="form-group">
@@ -76,7 +65,7 @@ const SignIn = () => {
               <p className="error-message">Email is required.</p>
             )}
           </div>
-          
+
           <div className="form-group">
             <label className="form-label">
               Password
@@ -102,10 +91,10 @@ const SignIn = () => {
               <p className="error-message">Password is required.</p>
             )}
           </div>
-          
-          <button 
-            type="submit" 
-            className="btn-primary" 
+
+          <button
+            type="submit"
+            className="btn-primary"
             disabled={loading}
           >
             {loading ? (

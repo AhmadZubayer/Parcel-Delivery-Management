@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router';
+import { NavLink, Link } from 'react-router';
 import Logo from './Logo';
 import useAuth from '../hooks/useAuth';
 import '../App.css';
@@ -69,54 +69,29 @@ const NavBar = () => {
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">{links}</ul>
         </div>
-
-        {/* RIGHT */}
         <div className="navbar-end gap-2">
           {user ? (
             <div className="dropdown dropdown-end">
-              <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-               
-                  {user.photoURL ? (
-                    <img
-                      src={user.photoURL}
-                      alt="Profile"
-                      referrerPolicy="no-referrer"
-                    />
-                  ) : (
-                    <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-semibold">
-                      {(user.displayName || user.email)
-                        ?.charAt(0)
-                        .toUpperCase()}
-                    </div>
-                  )}
-                
+              <div tabIndex={0} role="button">
+                <img className='rounded-full h-[55px] w-[55px]' src={user.photoURL} alt="" />
               </div>
-
-              <ul
-                tabIndex={0}
-                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
-              >
-                <li className="menu-title">
-                  <span className="text-base font-semibold">
-                    {user.displayName || user.email}
-                  </span>
-                </li>
-                <li>
-                  <button onClick={handleSignOut} className="text-error">
-                    Sign Out
-                  </button>
-                </li>
+              <ul tabIndex="-1" className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm">
+                <li>{user.email}</li>
+                <li><NavLink>Your Account</NavLink></li>
+                <li><button onClick={handleSignOut}>Sign Out</button></li>
               </ul>
             </div>
           ) : (
-            <>
+            <div className="flex flex-col md:flex-row gap-2">
               <NavLink to="/signin" className="btn btn-2">Sign In</NavLink>
               <NavLink to="/register" className="btn btn-1">Register</NavLink>
-            </>
+            </div>
           )}
         </div>
       </div>
     </div>
+
+
   );
 };
 
