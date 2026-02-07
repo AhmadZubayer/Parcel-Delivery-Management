@@ -1,15 +1,30 @@
 import React from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import '../App.css';
+import { useLoaderData } from 'react-router';
 
 const SendAParcel = () => {
     const { register, handleSubmit, control, formState: { errors } } = useForm();
+    const serviceCenters = useLoaderData();
+    const regions = [...new Set(serviceCenters.map(d => d.region))];
+    const districtsByRegion = (region) => {
+        const regionDistricts = serviceCenters.filter(d => d.region === region);
+        const districts = regionDistricts.map(d => d.district);
+        return districts;
+    }
+    const senderRegion = useWatch({control, name:'senderRegion'});
+    const receiverRegion = useWatch({control, name:'receiverRegion'});
+    
+    const onSubmit = (data) => {
+        console.log('Form Data:', data);
+    };
+    
     return (
         <div className="container mx-auto px-4 py-8">
             {/* Centered Heading */}
             <h1 className='text-5xl font-bold text-center mb-8'>Send a Parcel</h1>
             
-            <form className="flex flex-col gap-8">
+            <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-8">
                 {/* 3-Column Grid for Desktop */}
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-20">
                     
@@ -55,12 +70,21 @@ const SendAParcel = () => {
                             <label className="label uppercase">Sender Region</label>
                             <select {...register('senderRegion')} defaultValue="Pick a region" className="select w-full">
                                 <option disabled={true}>Pick a region</option>
+                                {
+                                    regions.map((r,i)=> 
+                                    <option key={i} value={r}>{r}</option>)
+                                }
                             </select>
                         </fieldset>
                         <fieldset>
                             <label className="label uppercase">Sender District</label>
                             <select {...register('senderDistrict')} defaultValue="Pick a district" className="select w-full">
                                 <option disabled={true}>Pick a district</option>
+                                {
+                                    districtsByRegion(senderRegion).map((dis, idx) => 
+                                    <option key={idx} value={dis}>{dis}</option>)
+                                }
+                                
                             </select>
                         </fieldset>
                         <fieldset>
@@ -84,12 +108,20 @@ const SendAParcel = () => {
                             <label className="label uppercase">Receiver Region</label>
                             <select {...register('receiverRegion')} defaultValue="Pick a region" className="select w-full">
                                 <option disabled={true}>Pick a region</option>
+                                {
+                                    regions.map((reg,idx)=> 
+                                    <option key={idx} value={reg}>{reg}</option>)
+                                }
                             </select>
                         </fieldset>
                         <fieldset>
                             <label className="label uppercase">Receiver District</label>
                             <select {...register('receiverDistrict')} defaultValue="Pick a district" className="select w-full">
                                 <option disabled={true}>Pick a district</option>
+                                {
+                                    districtsByRegion(receiverRegion).map((dis, idx) => 
+                                    <option key={idx} value={dis}>{dis}</option>)
+                                }
                             </select>
                         </fieldset>
                         <fieldset>
